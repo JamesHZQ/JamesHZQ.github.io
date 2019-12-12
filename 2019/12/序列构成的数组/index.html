@@ -8,18 +8,34 @@
 <meta name="generator" content="Hugo 0.60.1 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="James He">
 <meta name="keywords" content="">
-<meta name="description" content="序列构成的数组">
+<meta name="description" content="序列构成的数组:
+容器序列：list、tuple和collections.dequeue这些序列能存放不同类型的数据
+扁平序列：str、bytes、bytearray、memeoryview和array.array这些序列只能存放一种类型的数据
+可变序列：list、bytearray、array.array、collections.dequeue和memoryview
+不可变序列：tuple、str和bytes">
 
 
-<meta property="og:description" content="序列构成的数组">
+<meta property="og:description" content="序列构成的数组:
+容器序列：list、tuple和collections.dequeue这些序列能存放不同类型的数据
+扁平序列：str、bytes、bytearray、memeoryview和array.array这些序列只能存放一种类型的数据
+可变序列：list、bytearray、array.array、collections.dequeue和memoryview
+不可变序列：tuple、str和bytes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="序列构成的数组">
 <meta name="twitter:title" content="序列构成的数组">
 <meta property="og:url" content="https://JamesHZQ.github.io/2019/12/%E5%BA%8F%E5%88%97%E6%9E%84%E6%88%90%E7%9A%84%E6%95%B0%E7%BB%84/">
 <meta property="twitter:url" content="https://JamesHZQ.github.io/2019/12/%E5%BA%8F%E5%88%97%E6%9E%84%E6%88%90%E7%9A%84%E6%95%B0%E7%BB%84/">
 <meta property="og:site_name" content="James He::blog">
-<meta property="og:description" content="序列构成的数组">
-<meta name="twitter:description" content="序列构成的数组">
+<meta property="og:description" content="序列构成的数组:
+容器序列：list、tuple和collections.dequeue这些序列能存放不同类型的数据
+扁平序列：str、bytes、bytearray、memeoryview和array.array这些序列只能存放一种类型的数据
+可变序列：list、bytearray、array.array、collections.dequeue和memoryview
+不可变序列：tuple、str和bytes">
+<meta name="twitter:description" content="序列构成的数组:
+容器序列：list、tuple和collections.dequeue这些序列能存放不同类型的数据
+扁平序列：str、bytes、bytearray、memeoryview和array.array这些序列只能存放一种类型的数据
+可变序列：list、bytearray、array.array、collections.dequeue和memoryview
+不可变序列：tuple、str和bytes">
 <meta property="og:locale" content="zh-cn">
 
   
@@ -31,14 +47,14 @@
   
   
     
-      <meta property="article:section" content="abc">
+      <meta property="article:section" content="python">
     
-      <meta property="article:section" content="士大夫">
+      <meta property="article:section" content="《流畅的python》">
     
   
   
     
-      <meta property="article:tag" content="pythons">
+      <meta property="article:tag" content="python">
     
   
 
@@ -243,9 +259,9 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://JamesHZQ.github.io/categories/abc">abc</a>, 
+      <a class="category-link" href="https://JamesHZQ.github.io/categories/python">python</a>, 
     
-      <a class="category-link" href="https://JamesHZQ.github.io/categories/%e5%a3%ab%e5%a4%a7%e5%a4%ab">士大夫</a>
+      <a class="category-link" href="https://JamesHZQ.github.io/categories/%e6%b5%81%e7%95%85%e7%9a%84python">《流畅的python》</a>
     
   
 
@@ -255,7 +271,11 @@
               
               <div class="post-content markdown" itemprop="articleBody">
                   <div class="main-content-wrap">
-                      <p>序列构成的数组</p>
+                      <p>序列构成的数组:
+容器序列：list、tuple和collections.dequeue这些序列能存放不同类型的数据
+扁平序列：str、bytes、bytearray、memeoryview和array.array这些序列只能存放一种类型的数据</p>
+<p>可变序列：list、bytearray、array.array、collections.dequeue和memoryview
+不可变序列：tuple、str和bytes</p>
 <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
   <ul>
     <li><a href="#heading1">列表推导</a>
@@ -273,25 +293,6 @@
     </li>
   </ul>
 </nav>
-<ul>
-<li><a href="#%E5%BA%8F%E5%88%97%E6%9E%84%E6%88%90%E7%9A%84%E6%95%B0%E7%BB%84">序列构成的数组</a>[](#)
-<ul>
-<li><a href="#%E5%88%97%E8%A1%A8%E6%8E%A8%E5%AF%BC">列表推导</a>
-<ul>
-<li><a href="#%E5%88%97%E8%A1%A8%E6%8E%A8%E5%AF%BC%E4%B8%BE%E4%BE%8B">列表推导举例</a></li>
-<li><a href="#%E5%88%97%E8%A1%A8%E6%8E%A8%E5%AF%BC%E5%92%8Cfiltermap%E7%9A%84%E6%AF%94%E8%BE%83">列表推导和filter、map的比较</a></li>
-</ul>
-</li>
-<li><a href="#%E7%94%9F%E6%88%90%E5%99%A8%E8%A1%A8%E8%BE%BE%E5%BC%8F">生成器表达式</a></li>
-<li><a href="#%E5%85%83%E7%BB%84%E4%B8%8D%E4%BB%85%E6%98%AF%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%88%97%E8%A1%A8">元组不仅是不可变列表</a>
-<ul>
-<li><a href="#%E5%85%83%E7%BB%84%E7%94%A8%E4%BA%8E%E8%AE%B0%E5%BD%95">元组用于记录</a></li>
-<li><a href="#%E5%85%83%E7%BB%84%E6%8B%86%E5%8C%85">元组拆包</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
 <h1 id="heading">序列构成的数组</h1>
 <h2 id="heading1">列表推导</h2>
 <h3 id="heading2">列表推导举例</h3>
@@ -347,78 +348,6 @@ _, filename = os.path.split('.home/luciano/.ssh/idrsa.pub')
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a, b, <span style="color:#f92672">*</span>rest <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">5</span>)
 a, <span style="color:#f92672">*</span>body, c, d <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">5</span>)
 </code></pre></div>
-  
-  
-  
-  
-
-
-<figure class="highlight  language-">
-  <figcaption>
-    
-  </figcaption>
-  <table>
-    <tbody>
-      <tr>
-        <td class="gutter">
-          <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre>
-        </td>
-        <td class="code">
-          <pre class="code-highlight language-"><code class="">
-```
-#include&lt;vector&gt;
-#include&lt;sstream&gt;
-#include&lt;string&gt;
-#include&lt;iostream&gt;
-using namespace std;
-int main() {
-	string s1, s2;
-	int subnet;
-	cin &gt;&gt; s1 &gt;&gt; s2 &gt;&gt; subnet;
-	vector&lt;string&gt; v;
-	int ip1 = 0, ip2 = 0;
-	istringstream ss(s1);
-	string temp;
-	while (getline(ss,temp, &#39;.&#39;)) {
-		v.push_back(temp);
-	}
-	for (int i = 0; i &lt; 4; &#43;&#43;i) {
-		int temp = stoi(v[i]);
-		ip1 |= temp &lt;&lt; (3 - i) * 8;
-	}
-	istringstream ss2(s2);
-	v.clear();
-	while (getline(ss2, temp, &#39;.&#39;)) {
-		v.push_back(temp);
-	}
-	for (int i = 0; i &lt; 4; &#43;&#43;i) {
-		int temp = stoi(v[i]);
-		ip2 |= temp &lt;&lt; (3 - i) * 8;
-	}
-	unsigned x = 1;
-	x = x &lt;&lt; 31;
-	int sum = 0;
-	for (int i = 0; i &lt; 32; &#43;&#43;i) {
-		bool flag1 = x &amp; ip1;
-		bool flag2 = x &amp; ip2;
-		if (flag1 == flag2)
-			sum&#43;&#43;;
-		else
-			break;
-		x = x &gt;&gt; 1;
-	}
-	if (sum &gt;= subnet)
-		cout &lt;&lt; &#34;true&#34; &lt;&lt; endl;
-	else
-		cout &lt;&lt; &#34;false&#34; &lt;&lt; endl;
-	return 0;
-}
-```</code></pre>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</figure>
                       
                   </div>
               </div>
@@ -430,7 +359,7 @@ int main() {
                   <div class="post-footer-tags">
                       <span class="text-color-light text-small">标签</span><br />
                       
-  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/pythons/">pythons</a>
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/python/">python</a>
 
                   </div>
                   
@@ -526,7 +455,6 @@ int main() {
 </script>
                   </div>
               </div>
-
           </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">

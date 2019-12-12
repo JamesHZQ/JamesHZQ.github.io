@@ -17,7 +17,11 @@
       <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>https://JamesHZQ.github.io/2019/12/%E5%BA%8F%E5%88%97%E6%9E%84%E6%88%90%E7%9A%84%E6%95%B0%E7%BB%84/</guid>
-      <description>&lt;p&gt;序列构成的数组&lt;/p&gt;</description>
+      <description>&lt;p&gt;序列构成的数组:
+容器序列：list、tuple和collections.dequeue这些序列能存放不同类型的数据
+扁平序列：str、bytes、bytearray、memeoryview和array.array这些序列只能存放一种类型的数据&lt;/p&gt;
+&lt;p&gt;可变序列：list、bytearray、array.array、collections.dequeue和memoryview
+不可变序列：tuple、str和bytes&lt;/p&gt;</description>
     </item>
     
   </channel>

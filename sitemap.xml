@@ -3,11 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://JamesHZQ.github.io/categories/abc/</loc>
-    <lastmod>2019-12-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://JamesHZQ.github.io/categories/</loc>
     <lastmod>2019-12-09T00:00:00+00:00</lastmod>
   </url>
@@ -23,7 +18,12 @@
   </url>
   
   <url>
-    <loc>https://JamesHZQ.github.io/tags/pythons/</loc>
+    <loc>https://JamesHZQ.github.io/tags/python/</loc>
+    <lastmod>2019-12-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/categories/python/</loc>
     <lastmod>2019-12-09T00:00:00+00:00</lastmod>
   </url>
   
@@ -33,7 +33,7 @@
   </url>
   
   <url>
-    <loc>https://JamesHZQ.github.io/categories/%E5%A3%AB%E5%A4%A7%E5%A4%AB/</loc>
+    <loc>https://JamesHZQ.github.io/categories/%E6%B5%81%E7%95%85%E7%9A%84python/</loc>
     <lastmod>2019-12-09T00:00:00+00:00</lastmod>
   </url>
   
