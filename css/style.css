@@ -2738,7 +2738,7 @@ figure.highlight,
   figure.highlight .gutter,
   .codeblock .gutter {
     background: #011627;
-    border-right-color: #241379; }
+    border-right-color: #e6e6e6; }
     figure.highlight .gutter .line,
     .codeblock .gutter .line {
       color: #aaaaaa; }
