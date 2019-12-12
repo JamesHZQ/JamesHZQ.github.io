@@ -2738,10 +2738,10 @@ figure.highlight,
   figure.highlight .gutter,
   .codeblock .gutter {
     background: #011627;
-    border-right-color: #e6e6e6; }
+    border-right-color: #241379; }
     figure.highlight .gutter .line,
     .codeblock .gutter .line {
-      color: #2c1169; }
+      color: #aaaaaa; }
   figure.highlight .keyword,
   .codeblock .keyword {
     color: #c792ea;
