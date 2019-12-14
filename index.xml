@@ -6,10 +6,19 @@
     <description>Recent content on James He::blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://JamesHZQ.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>博客搭建（2）</title>
+      <link>https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA2/</link>
+      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA2/</guid>
+      <description>&lt;p&gt;下面将介绍对Hugo主题进行简单的定制，所选的主题是我所使用tranquilpeak，若你使用的是其他主题也可以参考，应该大同小异。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>博客搭建（1）</title>
