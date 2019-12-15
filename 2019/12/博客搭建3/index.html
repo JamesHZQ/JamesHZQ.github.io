@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.60.1 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="James He">
+<meta name="keywords" content="">
+<meta name="description" content="本篇博客将介绍如何在博客中引入valine评论系统。">
+
+
+<meta property="og:description" content="本篇博客将介绍如何在博客中引入valine评论系统。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博客搭建（3）">
+<meta name="twitter:title" content="博客搭建（3）">
+<meta property="og:url" content="https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+<meta property="twitter:url" content="https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+<meta property="og:site_name" content="James He::blog">
+<meta property="og:description" content="本篇博客将介绍如何在博客中引入valine评论系统。">
+<meta name="twitter:description" content="本篇博客将介绍如何在博客中引入valine评论系统。">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-12-15T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2019-12-15T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="博客搭建">
+    
+  
+  
+    
+      <meta property="article:tag" content="hugo">
+    
+      <meta property="article:tag" content="blog">
+    
+      <meta property="article:tag" content="valine博客评论系统">
+    
+      <meta property="article:tag" content="文章阅读统计">
+    
+      <meta property="article:tag" content="leancloud">
+    
+      <meta property="article:tag" content="服务器定时唤醒">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=640">
+
+
+    <title>博客搭建（3）</title>
+
+    <link rel="icon" href="https://JamesHZQ.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://JamesHZQ.github.io/css/style-8gzkhizten95e9yeop7i16aozk65siaht8ldxdcp03ou4rrggzbqth9.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://JamesHZQ.github.io/">James He::blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://JamesHZQ.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://JamesHZQ.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">James He</h4>
+        
+          <h5 class="sidebar-profile-bio">不忘初心<br /><a href="mailto:hezhiqiang.a@gmail.com">hezhiqiang.a@gmail.com</a></h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/JamesHZQ" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/11174813/james-he" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+          <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+              
+              
+              <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      博客搭建（3）
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-12-15T00:00:00Z">
+        
+  十二月 15, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://JamesHZQ.github.io/categories/%e5%8d%9a%e5%ae%a2%e6%90%ad%e5%bb%ba">博客搭建</a>
+    
+  
+
+  </div>
+
+</div>
+              
+              <div class="post-content markdown" itemprop="articleBody">
+                  <div class="main-content-wrap">
+                      <p>本篇博客将介绍如何在博客中引入valine评论系统。</p>
+<h1 id="table-of-contents">目录</h1><nav id="TableOfContents"></nav>
+<h1 id="leancloud">配置leancloud</h1>
+<p>大致按如下步骤配置，详情请看<a href="https://www.smslit.top/2018/07/08/hugo-valine/">这里</a></p>
+<ol>
+<li>登录或注册<a href="https://leancloud.cn/dashboard/login.html#/signin">leancloud</a></li>
+<li>进入后台创建应用</li>
+<li>创建好应用，进入应用，左边栏找到 <strong>设置</strong> ，然后点击 <strong>应用Key</strong>，查看 <strong>App ID</strong> 和 <strong>App Key</strong>，后面配置文件中会用到</li>
+<li>在存储中创建两个Class，Counter和comment</li>
+<li>依次点击<strong>设置</strong>-&gt;<strong>安全中心</strong>，找到<strong>web安全域名</strong>，然后填写自己的博客网址</li>
+</ol>
+<h1 id="configtoml">配置config.toml</h1>
+<p>可参考如下配置代码,同时需要注释掉这行代码<code>disqusShortname = &quot;hugo-tranquilpeak-theme&quot;</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">  [<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">valine</span>]
+    <span style="color:#a6e22e">enable</span> = <span style="color:#66d9ef">true</span>
+    <span style="color:#a6e22e">appId</span> = <span style="color:#e6db74">&#39;YOUR APPID&#39;</span>
+    <span style="color:#a6e22e">appKey</span> = <span style="color:#e6db74">&#39;YOUR APPKEY&#39;</span>
+    <span style="color:#a6e22e">notify</span> = <span style="color:#66d9ef">false</span>  <span style="color:#75715e"># mail notifier , https://github.com/xCss/Valine/wiki</span>
+    <span style="color:#a6e22e">verify</span> = <span style="color:#66d9ef">false</span> <span style="color:#75715e"># Verification code</span>
+    <span style="color:#a6e22e">avatar</span> = <span style="color:#e6db74">&#39;mm&#39;</span> 
+    <span style="color:#a6e22e">placeholder</span> = <span style="color:#e6db74">&#39;说点什么吧...&#39;</span>
+    <span style="color:#a6e22e">visitor</span> = <span style="color:#66d9ef">true</span>
+</code></pre></div><h1 id="heading">修改主题文件</h1>
+<p>在myblog\themes\hugo-tranquilpeak-theme\layouts\partials文件夹下，新建comments.html布局文件，填写如下代码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> valine </span><span style="color:#75715e">--&gt;</span>
+{{- if .Site.Params.valine.enable -}}
+<span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> id 将作为查询条件 </span><span style="color:#75715e">--&gt;</span>
+&lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .URL | relURL }}&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;leancloud_visitors&#34;</span> <span style="color:#a6e22e">data-flag-title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .Title }}&#34;</span>&gt;
+    &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post-meta-item-text&#34;</span>&gt;文章阅读量&lt;/<span style="color:#f92672">span</span>&gt;
+    &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;leancloud-visitors-count&#34;</span>&gt;1000000&lt;/<span style="color:#f92672">span</span>&gt;
+    &lt;<span style="color:#f92672">p</span>&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;vcomments&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//cdn1.lncld.net/static/js/3.0.4/av-min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;//unpkg.com/valine/dist/Valine.min.js&#39;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span>&gt;
+    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Valine</span>({
+        <span style="color:#a6e22e">el</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#vcomments&#39;</span> ,
+        <span style="color:#a6e22e">appId</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.valine.appId }}&#39;</span>,
+        <span style="color:#a6e22e">appKey</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.valine.appKey }}&#39;</span>,
+        <span style="color:#a6e22e">notify</span><span style="color:#f92672">:</span> {{ .<span style="color:#a6e22e">Site</span>.<span style="color:#a6e22e">Params</span>.<span style="color:#a6e22e">valine</span>.<span style="color:#a6e22e">notify</span> }},
+        <span style="color:#a6e22e">verify</span><span style="color:#f92672">:</span> {{ .<span style="color:#a6e22e">Site</span>.<span style="color:#a6e22e">Params</span>.<span style="color:#a6e22e">valine</span>.<span style="color:#a6e22e">verify</span> }},
+        <span style="color:#a6e22e">avatar</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#39;{{ .Site.Params.valine.avatar }}&#39;</span>,
+        <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.valine.placeholder }}&#39;</span>,
+        <span style="color:#a6e22e">visitor</span><span style="color:#f92672">:</span> {{ .<span style="color:#a6e22e">Site</span>.<span style="color:#a6e22e">Params</span>.<span style="color:#a6e22e">valine</span>.<span style="color:#a6e22e">visitor</span> }}
+    });
+&lt;/<span style="color:#f92672">script</span>&gt;
+{{- end }}
+</code></pre></div><p>然后在myblog\themes\hugo-tranquilpeak-theme\layouts_default文件夹下找到single.html文件，将如下代码插入到源文件的第42行（也可以插到其它行，插到不同地方会使评论显示在博客的不同位置）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34; post-comment&#34;</span>&gt;
+	{{ partial &#34;comments.html&#34; . }}
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><h1 id="leancloud1">引入leancloud后台自动唤醒功能</h1>
+<p>免费版的leancloud容器，有强制性休眠策略，每天至少休眠6小时，并且30分钟没有外部请求会自动休眠。leancloud后台休眠状态下收到请求会被唤醒，但是这请求不会发送相应的通知邮件。</p>
+<p>所以需要配置leancloud定时器，每隔一段时间，如20min，自动激活一次，使后台长时间处于唤醒状态。</p>
+<p>大致步骤如下，详情请参考<a href="https://github.com/zhaojun1998/Valine-Admin">这里</a></p>
+<ol>
+<li>
+<p>在leancloud后台，点击<strong>云引擎</strong>-&gt;<strong>设置</strong>，填写代码库<code>https://github.com/zhaojun1998/Valine-Admin</code></p>
+</li>
+<li>
+<p>点击<strong>云引擎</strong>-&gt;<strong>部署</strong>-&gt;<strong>git源码部署</strong></p>
+</li>
+<li>
+<p><strong>云引擎</strong>-&gt;<strong>设置</strong>-&gt;<strong>自定义环境变量</strong>，添加必要的环境变量，注意SMTP_PASS为相应邮箱的授权码而不是邮箱密码</p>
+<p><img src="https://i.loli.net/2019/12/15/mjYVLcIqUhz7d3B.png" alt=""></p>
+</li>
+<li>
+<p>设置web主机域名，使用默认的即可</p>
+</li>
+<li>
+<p><strong>存储</strong>-&gt;<strong>结构化数据</strong>-&gt;**_User**添加行，只需要填写 <code>email</code>、<code>password</code>、<code>username</code>三个字段即可</p>
+</li>
+<li>
+<p><strong>云引擎</strong>-&gt;<strong>设置</strong>-&gt;<strong>自定义环境变量</strong>，新增环境变量<code>ADMIN_URL</code>：<code>Web 主机域名</code>,重启容器</p>
+</li>
+<li>
+<p><strong>云引擎</strong>-&gt;<strong>定时任务</strong>-&gt;<strong>新增定时器</strong>，配置名称、模式选择self-wake，Cron表达式填写如下<code>0 */20 7-23 * * ?</code></p>
+</li>
+</ol>
+<p>至此一个基本的评论系统已经添加你自己的博客了，快去测试吧。</p>
+<h1 id="heading1">主要参考</h1>
+<blockquote>
+<p><a href="https://www.smslit.top/2018/07/08/hugo-valine/">https://www.smslit.top/2018/07/08/hugo-valine/</a></p>
+<p><a href="https://github.com/zhaojun1998/Valine-Admin">https://github.com/zhaojun1998/Valine-Admin</a></p>
+<p><a href="https://3mile.github.io/archives/2019/0903100406/">https://3mile.github.io/archives/2019/0903100406/</a></p>
+<p><a href="https://valine.js.org/">https://valine.js.org/</a></p>
+</blockquote>
+                      
+                  </div>
+              </div>
+              <div id="post-footer" class="post-footer main-content-wrap">
+                  
+                  
+                  
+                  
+                  <div class="post-footer-tags">
+                      <span class="text-color-light text-small">标签</span><br />
+                      
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/hugo/">hugo</a>
+
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/blog/">blog</a>
+
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/valine%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">valine博客评论系统</a>
+
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E7%BB%9F%E8%AE%A1/">文章阅读统计</a>
+
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/leancloud/">leancloud</a>
+
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%9A%E6%97%B6%E5%94%A4%E9%86%92/">服务器定时唤醒</a>
+
+                  </div>
+                  
+                  
+                  
+                  <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA2/" data-tooltip="博客搭建（2）">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+                  
+                  
+                  
+                  <div class=" post-comment">
+                      
+<span id="/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/" class="leancloud_visitors" data-flag-title="博客搭建（3）">
+    <span class="post-meta-item-text">文章阅读量</span>
+    <span class="leancloud-visitors-count">1000000</span>
+    <p></p>
+</span>
+<div id="vcomments"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: '9vPmRyyg9zXg0dmLboi2hGUw-gzGzoHsz',
+        appKey: 'FqfEjT1awERGPA29J0l2v8in',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+</script>
+                  </div>
+              </div>
+          </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 James He. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA2/" data-tooltip="博客搭建（2）">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2FJamesHZQ.github.io%2F2019%2F12%2F%25E5%258D%259A%25E5%25AE%25A2%25E6%2590%25AD%25E5%25BB%25BA3%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2FJamesHZQ.github.io%2F2019%2F12%2F%25E5%258D%259A%25E5%25AE%25A2%25E6%2590%25AD%25E5%25BB%25BA3%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2FJamesHZQ.github.io%2F2019%2F12%2F%25E5%258D%259A%25E5%25AE%25A2%25E6%2590%25AD%25E5%25BB%25BA3%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">James He</h4>
+    
+      <div id="about-card-bio">不忘初心<br /><a href="mailto:hezhiqiang.a@gmail.com">hezhiqiang.a@gmail.com</a></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        程序猿
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        广州
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://JamesHZQ.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://JamesHZQ.github.io/js/script-ekdso2vsh04xr2ezine7paomcdh3dkwjlcz3hkrijsl45lociksliawpt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

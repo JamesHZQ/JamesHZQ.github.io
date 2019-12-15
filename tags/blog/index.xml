@@ -6,10 +6,19 @@
     <description>Recent content in blog on James He::blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://JamesHZQ.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>博客搭建（3）</title>
+      <link>https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/</link>
+      <pubDate>Sun, 15 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/</guid>
+      <description>&lt;p&gt;本篇博客将介绍如何在博客中引入valine评论系统。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>博客搭建（2）</title>
