@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.60.1 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="James He">
+<meta name="keywords" content="">
+<meta name="description" content="https实现原理 https在证书验证上用的非对称加密，内容传输上使用的是对称加密。
+https通信过程 证书验证阶段：
+ 浏览器发起https请求 服务端返回https证书以及公钥 客户端验证证书是否合法，如果不合法则提示警告 当证书验证合法后，客户端在本地生成随机数 客户端通过公钥加密随机数，并把加密后的随机数传输到服务端。 服务端通过私钥解密得到随机数  数据传输阶段：
+ 服务端通过客户端传入的随机数构造加密算法，对返回的结果进行加密后传输。  为什么数据传输阶段使用对称加密？ 因为相比非对称加密/解密，对称加密解密的效率更高，而且在https协议下，服务端只拥有私钥，客户端只拥有私钥，一对公私钥只能实现单向的加解密，所以https在数据传输阶段使用对称加密。
+为什么需要CA认证机构颁发证书？ http协议之所以不安全是因为在传输过程中，容易被监听者勾线监听、伪造服务器。引入https协议就是为了解决网络传输的安全性问题。若没有一个认证过的机构，任何人都可以制作证书，会带来“中间人攻击的问题”。
+中间人攻击的过程如下：
+ 本地请求被劫持 (如 DNS 劫持等)，所有请求均发送到中间人的服务器。 中间人服务器返回中间人自己的证书。 客户端创建随机数，通过中间人证书的公钥对随机数加密后传送给中间人，然后凭随机数构造对称加密对传输内容进行加密传输。 中间人因为拥有客户端的随机数，可以通过对称加密算法进行内容解密。 中间人以客户端的请求内容再向正规网站发起请求。 因为中间人与服务器的通信过程是合法的，正规网站通过建立的安全通道返回加密后的数据。 中间人凭借与正规网站建立的对称加密算法对内容进行解密。 中间人通过与客户端建立的对称加密算法对正规内容返回的数据进行加密传输。 客户端通过与中间人建立的对称加密算法对返回结果数据进行解密。  由于缺少对证书的验证，所以客户端虽然发起的是 HTTPS 请求，但客户端完全不知道自己的网络已被拦截，传输内容被中间人全部窃取。
+浏览器是如何确保 CA 证书的合法性?   证书包含的信息
+颁发机构、公钥、公司、域名、有效期、指纹。。。
+  证书的合法依据
+ 颁发证书的机构，需要经过认证，具有一定的权威性。 证书的信任制，权威机构要对颁发的证书进行信用背书 权威机构会对证书申请者进行信息审核    客户端浏览器验证证书的合法性
+  验证域名，有效期等基本信息是否正确
+  判断证书来源是否合法。每份签发证书都可以根据验证链查找到对应的根证书，操作系统、浏览器会在本地存储权威机构的根证书，利用本地根证书可以对对应机构签发证书完成来源验证。
+  判断证书是否被篡改。需要与 CA 服务器进行校验。
+  判断证书是否已吊销。通过 CRL(Certificate Revocation List 证书注销列表) 和 OCSP(Online Certificate Status Protocol 在线证书状态协议) 实现。">
+
+
+<meta property="og:description" content="https实现原理 https在证书验证上用的非对称加密，内容传输上使用的是对称加密。
+https通信过程 证书验证阶段：
+ 浏览器发起https请求 服务端返回https证书以及公钥 客户端验证证书是否合法，如果不合法则提示警告 当证书验证合法后，客户端在本地生成随机数 客户端通过公钥加密随机数，并把加密后的随机数传输到服务端。 服务端通过私钥解密得到随机数  数据传输阶段：
+ 服务端通过客户端传入的随机数构造加密算法，对返回的结果进行加密后传输。  为什么数据传输阶段使用对称加密？ 因为相比非对称加密/解密，对称加密解密的效率更高，而且在https协议下，服务端只拥有私钥，客户端只拥有私钥，一对公私钥只能实现单向的加解密，所以https在数据传输阶段使用对称加密。
+为什么需要CA认证机构颁发证书？ http协议之所以不安全是因为在传输过程中，容易被监听者勾线监听、伪造服务器。引入https协议就是为了解决网络传输的安全性问题。若没有一个认证过的机构，任何人都可以制作证书，会带来“中间人攻击的问题”。
+中间人攻击的过程如下：
+ 本地请求被劫持 (如 DNS 劫持等)，所有请求均发送到中间人的服务器。 中间人服务器返回中间人自己的证书。 客户端创建随机数，通过中间人证书的公钥对随机数加密后传送给中间人，然后凭随机数构造对称加密对传输内容进行加密传输。 中间人因为拥有客户端的随机数，可以通过对称加密算法进行内容解密。 中间人以客户端的请求内容再向正规网站发起请求。 因为中间人与服务器的通信过程是合法的，正规网站通过建立的安全通道返回加密后的数据。 中间人凭借与正规网站建立的对称加密算法对内容进行解密。 中间人通过与客户端建立的对称加密算法对正规内容返回的数据进行加密传输。 客户端通过与中间人建立的对称加密算法对返回结果数据进行解密。  由于缺少对证书的验证，所以客户端虽然发起的是 HTTPS 请求，但客户端完全不知道自己的网络已被拦截，传输内容被中间人全部窃取。
+浏览器是如何确保 CA 证书的合法性?   证书包含的信息
+颁发机构、公钥、公司、域名、有效期、指纹。。。
+  证书的合法依据
+ 颁发证书的机构，需要经过认证，具有一定的权威性。 证书的信任制，权威机构要对颁发的证书进行信用背书 权威机构会对证书申请者进行信息审核    客户端浏览器验证证书的合法性
+  验证域名，有效期等基本信息是否正确
+  判断证书来源是否合法。每份签发证书都可以根据验证链查找到对应的根证书，操作系统、浏览器会在本地存储权威机构的根证书，利用本地根证书可以对对应机构签发证书完成来源验证。
+  判断证书是否被篡改。需要与 CA 服务器进行校验。
+  判断证书是否已吊销。通过 CRL(Certificate Revocation List 证书注销列表) 和 OCSP(Online Certificate Status Protocol 在线证书状态协议) 实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="https原理">
+<meta name="twitter:title" content="https原理">
+<meta property="og:url" content="https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+<meta property="twitter:url" content="https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+<meta property="og:site_name" content="James He::blog">
+<meta property="og:description" content="https实现原理 https在证书验证上用的非对称加密，内容传输上使用的是对称加密。
+https通信过程 证书验证阶段：
+ 浏览器发起https请求 服务端返回https证书以及公钥 客户端验证证书是否合法，如果不合法则提示警告 当证书验证合法后，客户端在本地生成随机数 客户端通过公钥加密随机数，并把加密后的随机数传输到服务端。 服务端通过私钥解密得到随机数  数据传输阶段：
+ 服务端通过客户端传入的随机数构造加密算法，对返回的结果进行加密后传输。  为什么数据传输阶段使用对称加密？ 因为相比非对称加密/解密，对称加密解密的效率更高，而且在https协议下，服务端只拥有私钥，客户端只拥有私钥，一对公私钥只能实现单向的加解密，所以https在数据传输阶段使用对称加密。
+为什么需要CA认证机构颁发证书？ http协议之所以不安全是因为在传输过程中，容易被监听者勾线监听、伪造服务器。引入https协议就是为了解决网络传输的安全性问题。若没有一个认证过的机构，任何人都可以制作证书，会带来“中间人攻击的问题”。
+中间人攻击的过程如下：
+ 本地请求被劫持 (如 DNS 劫持等)，所有请求均发送到中间人的服务器。 中间人服务器返回中间人自己的证书。 客户端创建随机数，通过中间人证书的公钥对随机数加密后传送给中间人，然后凭随机数构造对称加密对传输内容进行加密传输。 中间人因为拥有客户端的随机数，可以通过对称加密算法进行内容解密。 中间人以客户端的请求内容再向正规网站发起请求。 因为中间人与服务器的通信过程是合法的，正规网站通过建立的安全通道返回加密后的数据。 中间人凭借与正规网站建立的对称加密算法对内容进行解密。 中间人通过与客户端建立的对称加密算法对正规内容返回的数据进行加密传输。 客户端通过与中间人建立的对称加密算法对返回结果数据进行解密。  由于缺少对证书的验证，所以客户端虽然发起的是 HTTPS 请求，但客户端完全不知道自己的网络已被拦截，传输内容被中间人全部窃取。
+浏览器是如何确保 CA 证书的合法性?   证书包含的信息
+颁发机构、公钥、公司、域名、有效期、指纹。。。
+  证书的合法依据
+ 颁发证书的机构，需要经过认证，具有一定的权威性。 证书的信任制，权威机构要对颁发的证书进行信用背书 权威机构会对证书申请者进行信息审核    客户端浏览器验证证书的合法性
+  验证域名，有效期等基本信息是否正确
+  判断证书来源是否合法。每份签发证书都可以根据验证链查找到对应的根证书，操作系统、浏览器会在本地存储权威机构的根证书，利用本地根证书可以对对应机构签发证书完成来源验证。
+  判断证书是否被篡改。需要与 CA 服务器进行校验。
+  判断证书是否已吊销。通过 CRL(Certificate Revocation List 证书注销列表) 和 OCSP(Online Certificate Status Protocol 在线证书状态协议) 实现。">
+<meta name="twitter:description" content="https实现原理 https在证书验证上用的非对称加密，内容传输上使用的是对称加密。
+https通信过程 证书验证阶段：
+ 浏览器发起https请求 服务端返回https证书以及公钥 客户端验证证书是否合法，如果不合法则提示警告 当证书验证合法后，客户端在本地生成随机数 客户端通过公钥加密随机数，并把加密后的随机数传输到服务端。 服务端通过私钥解密得到随机数  数据传输阶段：
+ 服务端通过客户端传入的随机数构造加密算法，对返回的结果进行加密后传输。  为什么数据传输阶段使用对称加密？ 因为相比非对称加密/解密，对称加密解密的效率更高，而且在https协议下，服务端只拥有私钥，客户端只拥有私钥，一对公私钥只能实现单向的加解密，所以https在数据传输阶段使用对称加密。
+为什么需要CA认证机构颁发证书？ http协议之所以不安全是因为在传输过程中，容易被监听者勾线监听、伪造服务器。引入https协议就是为了解决网络传输的安全性问题。若没有一个认证过的机构，任何人都可以制作证书，会带来“中间人攻击的问题”。
+中间人攻击的过程如下：
+ 本地请求被劫持 (如 DNS 劫持等)，所有请求均发送到中间人的服务器。 中间人服务器返回中间人自己的证书。 客户端创建随机数，通过中间人证书的公钥对随机数加密后传送给中间人，然后凭随机数构造对称加密对传输内容进行加密传输。 中间人因为拥有客户端的随机数，可以通过对称加密算法进行内容解密。 中间人以客户端的请求内容再向正规网站发起请求。 因为中间人与服务器的通信过程是合法的，正规网站通过建立的安全通道返回加密后的数据。 中间人凭借与正规网站建立的对称加密算法对内容进行解密。 中间人通过与客户端建立的对称加密算法对正规内容返回的数据进行加密传输。 客户端通过与中间人建立的对称加密算法对返回结果数据进行解密。  由于缺少对证书的验证，所以客户端虽然发起的是 HTTPS 请求，但客户端完全不知道自己的网络已被拦截，传输内容被中间人全部窃取。
+浏览器是如何确保 CA 证书的合法性?   证书包含的信息
+颁发机构、公钥、公司、域名、有效期、指纹。。。
+  证书的合法依据
+ 颁发证书的机构，需要经过认证，具有一定的权威性。 证书的信任制，权威机构要对颁发的证书进行信用背书 权威机构会对证书申请者进行信息审核    客户端浏览器验证证书的合法性
+  验证域名，有效期等基本信息是否正确
+  判断证书来源是否合法。每份签发证书都可以根据验证链查找到对应的根证书，操作系统、浏览器会在本地存储权威机构的根证书，利用本地根证书可以对对应机构签发证书完成来源验证。
+  判断证书是否被篡改。需要与 CA 服务器进行校验。
+  判断证书是否已吊销。通过 CRL(Certificate Revocation List 证书注销列表) 和 OCSP(Online Certificate Status Protocol 在线证书状态协议) 实现。">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-12-23T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2019-12-23T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="网络编程">
+    
+  
+  
+    
+      <meta property="article:tag" content="http">
+    
+      <meta property="article:tag" content="https">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=640">
+
+
+    <title>https原理</title>
+
+    <link rel="icon" href="https://JamesHZQ.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://JamesHZQ.github.io/css/style-c6ffkxcp2qwlf43uopv7qpz9w3xzfr0xyjwzlhnhnnmj00kjixck64ds.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://JamesHZQ.github.io/">James He::blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://JamesHZQ.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://JamesHZQ.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">James He</h4>
+        
+          <h5 class="sidebar-profile-bio">不忘初心，做好自己<br /><a href="mailto:hezhiqiang.a@gmail.com">hezhiqiang.a@gmail.com</a></h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/JamesHZQ" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/11174813/james-he" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+          <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+              
+              
+              <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      https原理
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-12-23T00:00:00Z">
+        
+  十二月 23, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://JamesHZQ.github.io/categories/%e7%bd%91%e7%bb%9c%e7%bc%96%e7%a8%8b">网络编程</a>
+    
+  
+
+  </div>
+
+</div>
+              
+              <div class="post-content markdown" itemprop="articleBody">
+                  <div class="main-content-wrap">
+                      <h1 id="https">https实现原理</h1>
+<p>https在证书验证上用的非对称加密，内容传输上使用的是对称加密。</p>
+<h2 id="https1">https通信过程</h2>
+<p><img src="https://i.loli.net/2019/12/23/3wY6SJNGvHW8F5b.jpg" alt=""></p>
+<p>证书验证阶段：</p>
+<ol>
+<li>浏览器发起https请求</li>
+<li>服务端返回https证书以及公钥</li>
+<li>客户端验证证书是否合法，如果不合法则提示警告</li>
+<li>当证书验证合法后，客户端在本地生成随机数</li>
+<li>客户端通过公钥加密随机数，并把加密后的随机数传输到服务端。</li>
+<li>服务端通过私钥解密得到随机数</li>
+</ol>
+<p>数据传输阶段：</p>
+<ol>
+<li>服务端通过客户端传入的随机数构造加密算法，对返回的结果进行加密后传输。</li>
+</ol>
+<h2 id="heading"><strong>为什么数据传输阶段使用对称加密</strong>？</h2>
+<p>因为相比非对称加密/解密，对称加密解密的效率更高，而且在https协议下，服务端只拥有私钥，客户端只拥有私钥，一对公私钥只能实现单向的加解密，所以https在数据传输阶段使用对称加密。</p>
+<h2 id="ca"><strong>为什么需要CA认证机构颁发证书？</strong></h2>
+<p>http协议之所以不安全是因为在传输过程中，容易被监听者勾线监听、伪造服务器。引入https协议就是为了解决网络传输的安全性问题。若没有一个认证过的机构，任何人都可以制作证书，会带来“中间人攻击的问题”。</p>
+<p><img src="https://i.loli.net/2019/12/23/WcTfewKEjd4J9Io.jpg" alt=""></p>
+<p>中间人攻击的过程如下：</p>
+<ol>
+<li>本地请求被劫持 (如 DNS 劫持等)，所有请求均发送到中间人的服务器。</li>
+<li>中间人服务器返回中间人自己的证书。</li>
+<li>客户端创建随机数，通过中间人证书的公钥对随机数加密后传送给中间人，然后凭随机数构造对称加密对传输内容进行加密传输。</li>
+<li>中间人因为拥有客户端的随机数，可以通过对称加密算法进行内容解密。</li>
+<li>中间人以客户端的请求内容再向正规网站发起请求。</li>
+<li>因为中间人与服务器的通信过程是合法的，正规网站通过建立的安全通道返回加密后的数据。</li>
+<li>中间人凭借与正规网站建立的对称加密算法对内容进行解密。</li>
+<li>中间人通过与客户端建立的对称加密算法对正规内容返回的数据进行加密传输。</li>
+<li>客户端通过与中间人建立的对称加密算法对返回结果数据进行解密。</li>
+</ol>
+<p>由于缺少对证书的验证，所以客户端虽然发起的是 HTTPS 请求，但客户端完全不知道自己的网络已被拦截，传输内容被中间人全部窃取。</p>
+<h2 id="-ca-"><strong>浏览器是如何确保 CA 证书的合法性?</strong></h2>
+<ol>
+<li>
+<p>证书包含的信息</p>
+<p>颁发机构、公钥、公司、域名、有效期、指纹。。。</p>
+</li>
+<li>
+<p>证书的合法依据</p>
+<ul>
+<li>颁发证书的机构，需要经过认证，具有一定的权威性。</li>
+<li>证书的信任制，权威机构要对颁发的证书进行信用背书</li>
+<li>权威机构会对证书申请者进行信息审核</li>
+</ul>
+</li>
+<li>
+<p>客户端浏览器验证证书的合法性</p>
+<ul>
+<li>
+<p>验证域名，有效期等基本信息是否正确</p>
+</li>
+<li>
+<p>判断证书来源是否合法。每份签发证书都可以根据验证链查找到对应的根证书，操作系统、浏览器会在本地存储权威机构的根证书，利用本地根证书可以对对应机构签发证书完成来源验证。</p>
+</li>
+<li>
+<p>判断证书是否被篡改。需要与 CA 服务器进行校验。</p>
+</li>
+<li>
+<p>判断证书是否已吊销。通过 CRL(Certificate Revocation List 证书注销列表) 和 OCSP(Online Certificate Status Protocol 在线证书状态协议) 实现。</p>
+<p>在官网下一份证书作为自己的服务器证书，发起中间人攻击，客户端浏览器会认为这个证书是合法的，那这样的攻击会成功吗？</p>
+<p>不会，因为只是拿到了网站的证书，但并不能拿到相应的私钥，所以无法解密客户端发来的用公钥加密的数据。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>只有认证机构才能生成证书吗？</p>
+<p>不是，可以使用私用证书，但浏览器会提示警告。</p>
+</li>
+<li>
+<p>本地随机数会被窃取吗？</p>
+<p>证书验证是采用非对称加密实现，但是传输过程是采用对称加密，而其中对称加密算法中重要的随机数是由本地生成并且存储于本地的。</p>
+<p>HTTPS 并不包含对随机数的安全保证，HTTPS 保证的只是传输过程安全，而随机数存储于本地，本地的安全属于另一安全范畴，应对的措施有安装杀毒软件、反木马、浏览器升级修复漏洞等。</p>
+</li>
+<li>
+<p>用了 HTTPS 会被抓包吗?</p>
+<p>HTTPS 的数据是加密的，常规下抓包工具代理请求后抓到的包内容是加密状态，无法直接查看。</p>
+<p>但是通过组件中间人网络，使用中间人代理作为抓包工具，在客户端授权通过的情况下，可以抓包查看数据。具体方法如下：</p>
+<ol>
+<li>https抓包工具生成一个证书</li>
+<li>用户手动将证书安装到浏览器</li>
+<li>然后终端发起的所有请求通过该证书完成与抓包工具的交互</li>
+<li>然后抓包工具再转发请求到服务器，最后把服务器返回的结果在控制台输出后再返回给终端，从而完成整个请求的闭环。</li>
+</ol>
+<p>虽然https协议下依然可以被抓包，但HTTPS 可以防止用户在不知情的情况下通信链路被监听，对于主动授信的抓包操作是不提供防护的，因为这个场景用户是已经对风险知情。</p>
+</li>
+</ol>
+<h2 id="-qa-">以下用简短的 Q&amp;A 形式进行全文总结：</h2>
+<p>Q：HTTPS 为什么安全?</p>
+<p>A：因为 HTTPS 保证了传输安全，防止传输过程被监听、防止数据被窃取，可以确认网站的真实性。</p>
+<p>Q：HTTPS 的传输过程是怎样的?</p>
+<p>A：客户端发起 HTTPS 请求，服务端返回证书，客户端对证书进行验证，验证通过后本地生成用于改造对称加密算法的随机数。</p>
+<p>通过证书中的公钥对随机数进行加密传输到服务端，服务端接收后通过私钥解密得到随机数，之后的数据交互通过对称加密算法进行加解密。</p>
+<p>Q：为什么需要证书?</p>
+<p>A：防止 “中间人” 攻击，同时可以为网站提供身份证明。</p>
+<p>Q：使用 HTTPS 会被抓包吗?</p>
+<p>A：会被抓包，HTTPS 只防止用户在不知情的情况下通信被监听，如果用户主动授信，是可以构建 “中间人” 网络，代理软件可以对传输内容进行解密。</p>
+<p><img src="https://i.loli.net/2019/12/23/UivyVInepRuGoJm.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://www.toutiao.com/i6766491225986957827/">https://www.toutiao.com/i6766491225986957827/</a></p>
+</blockquote>
+
+                      
+                  </div>
+              </div>
+              <div id="post-footer" class="post-footer main-content-wrap">
+                  
+                  
+                  
+                  
+                  <div class="post-footer-tags">
+                      <span class="text-color-light text-small">标签</span><br />
+                      
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/http/">http</a>
+
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/https/">https</a>
+
+                  </div>
+                  
+                  
+                  
+                  <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://JamesHZQ.github.io/2019/12/%E9%85%8D%E7%BD%AEpython%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/" data-tooltip="配置python虚拟环境">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+                  
+                  
+                  
+                  <div class=" post-comment">
+                      
+<span id="/2019/12/https%E5%8E%9F%E7%90%86/" class="leancloud_visitors" data-flag-title="https原理">
+    <span class="post-meta-item-text">文章阅读量</span>
+    <span class="leancloud-visitors-count">1000000</span>
+    <p></p>
+</span>
+<div id="vcomments"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: '9vPmRyyg9zXg0dmLboi2hGUw-gzGzoHsz',
+        appKey: 'FqfEjT1awERGPA29J0l2v8in',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+</script>
+                  </div>
+              </div>
+          </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 James He. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://JamesHZQ.github.io/2019/12/%E9%85%8D%E7%BD%AEpython%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/" data-tooltip="配置python虚拟环境">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://JamesHZQ.github.io/2019/12/https%E5%8E%9F%E7%90%86/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2FJamesHZQ.github.io%2F2019%2F12%2Fhttps%25E5%258E%259F%25E7%2590%2586%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2FJamesHZQ.github.io%2F2019%2F12%2Fhttps%25E5%258E%259F%25E7%2590%2586%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2FJamesHZQ.github.io%2F2019%2F12%2Fhttps%25E5%258E%259F%25E7%2590%2586%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">James He</h4>
+    
+      <div id="about-card-bio">不忘初心，做好自己<br /><a href="mailto:hezhiqiang.a@gmail.com">hezhiqiang.a@gmail.com</a></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        程序猿
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        广州
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://JamesHZQ.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://JamesHZQ.github.io/js/script-l7l2pnvx3kgm3ypbzp7m71ncwcj5xu3s38ooqmw7ipvsi0pwfyfpga.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
