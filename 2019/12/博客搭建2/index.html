@@ -260,8 +260,17 @@
               <div class="post-content markdown" itemprop="articleBody">
                   <div class="main-content-wrap">
                       <p>下面将介绍对Hugo主题进行简单的定制，所选的主题是我所使用tranquilpeak，若你使用的是其他主题也可以参考，应该大同小异。</p>
-<h1 id="table-of-contents">目录</h1><nav id="TableOfContents"></nav>
-<h1 id="heading">基本配置</h1>
+<h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+  <ul>
+    <li><a href="#heading">基本配置</a></li>
+    <li><a href="#heading1">侧边栏配置</a></li>
+    <li><a href="#githubstackoverflow">设置自己的github、stackoverflow</a></li>
+    <li><a href="#markdown">生成markdown目录</a></li>
+    <li><a href="#heading2">配置代码高亮主题</a></li>
+    <li><a href="#heading3">主要参考</a></li>
+  </ul>
+</nav>
+<h2 id="heading">基本配置</h2>
 <pre><code>baseURL = &quot;https://JamesHZQ.github.io/&quot;
 languageCode = &quot;en-us&quot;
 defaultContentLanguage = &quot;zh-cn&quot;
@@ -271,7 +280,7 @@ theme = &quot;hugo-tranquilpeak-theme&quot;
 # googleAnalytics = &quot;UA-123-45&quot;
 paginate = 7          //每页显示文章数
 canonifyurls = true
-</code></pre><h1 id="heading1">侧边栏配置</h1>
+</code></pre><h2 id="heading1">侧边栏配置</h2>
 <pre><code>[author]
   name = &quot;James He&quot;
   # '&lt;br /&gt;'用户换行
@@ -288,7 +297,7 @@ canonifyurls = true
   # twitter = &quot;thibaudlepretre&quot;
   # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
   # googlePlus = &quot;+ThibaudLepretre&quot;
-</code></pre><h1 id="githubstackoverflow">设置自己的github、stackoverflow</h1>
+</code></pre><h2 id="githubstackoverflow">设置自己的github、stackoverflow</h2>
 <pre><code>[[menu.links]]
   weight = 1
   identifier = &quot;github&quot;
@@ -302,15 +311,15 @@ canonifyurls = true
   pre = &quot;&lt;i class=\&quot;sidebar-button-icon fa fa-lg fa-stack-overflow\&quot;&gt;&lt;/i&gt;&quot;
   url = &quot;https://stackoverflow.com/users/11174813/james-he&quot;
 </code></pre><p>可以去<a href="https://fontawesome.com/icons?from=io">这里</a>找到自己想要的图标</p>
-<h1 id="markdown">生成markdown目录</h1>
+<h2 id="markdown">生成markdown目录</h2>
 <pre><code>  [markup]
     [markup.goldmark]
       [markup.goldmark.renderer]
         unsafe = true
   # 可以在目录中使用特殊字符    
   preserveTaxonomyNames = true
-</code></pre><p>较新版本的Hugo使用tranquilpeak主题，如果不添加上面的配置无法通过<code>&lt;!--toc--&gt;</code>快速生成目录，参考<a href="https://github.com/kakawait/hugo-tranquilpeak-theme/issues/395">这里</a></p>
-<h1 id="heading2">配置代码高亮主题</h1>
+</code></pre><p>较新版本的Hugo使用tranquilpeak主题，如果不添加上面的配置无法通过<code>&lt;!--toc--&gt;</code>快速生成目录，参考<a href="https://github.com/kakawait/hugo-tranquilpeak-theme/issues/395">这里</a>。另外要注意一级标题并不会出现在目录里。</p>
+<h2 id="heading2">配置代码高亮主题</h2>
 <p>先去<a href="https://highlightjs.org/static/demo/">这里</a>找到自己喜欢的代码高亮主题，然后去<a href="https://github.com/highlightjs/highlight.js/tree/master/src/styles">这里</a>找到相应的css代码，然后修改themes\hugo-tranquilpeak-theme\src\scss\themes\ _hljs-custom.scss，按照文件中的提示进行相应的配置，可以参考下面的的配置，我所选用的代码高亮的主题的night owl。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scss" data-lang="scss"><span style="color:#75715e">// Highlight.js custom theme
 </span><span style="color:#75715e"></span><span style="color:#75715e">// Follow guidelines
@@ -541,7 +550,7 @@ grunt buildProd
 //如果出错执行下面的命令
 npm run start
 grunt buildProd
-</code></pre></div><h1 id="heading3">主要参考</h1>
+</code></pre></div><h2 id="heading3">主要参考</h2>
 <blockquote>
 <p><a href="https://3mile.github.io/">https://3mile.github.io/</a></p>
 <p><a href="https://studygolang.com/articles/20975">https://studygolang.com/articles/20975</a></p>

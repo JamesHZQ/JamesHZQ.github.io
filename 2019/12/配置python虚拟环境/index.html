@@ -42,13 +42,13 @@
     
       <meta property="article:tag" content="python">
     
-      <meta property="article:tag" content="虚拟环境">
-    
       <meta property="article:tag" content="virtualenv">
     
       <meta property="article:tag" content="virtualwrapper">
     
       <meta property="article:tag" content="vscode">
+    
+      <meta property="article:tag" content="虚拟环境">
     
   
 
@@ -265,36 +265,51 @@
                   <div class="main-content-wrap">
                       <p>使用hugo+GitHub pages搭建博客，使用tranquilpeak主题。</p>
 <p>本篇博客将介绍如何配置python虚拟环境。</p>
-<h1 id="table-of-contents">目录</h1><nav id="TableOfContents"></nav>
-<h1 id="heading">虚拟环境的作用</h1>
+<h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+  <ul>
+    <li><a href="#heading">虚拟环境的作用</a></li>
+    <li><a href="#virtualenv">安装virtualenv</a></li>
+    <li><a href="#heading1">创建虚拟环境</a></li>
+    <li><a href="#heading2">进入环境</a></li>
+    <li><a href="#heading3">退出虚拟环境</a></li>
+    <li><a href="#python">创建虚拟环境的时候指定python解释器</a></li>
+    <li><a href="#virtualenvwrapper">virtualenvwrapper</a></li>
+    <li><a href="#virtualenvwrapper1">安装virtualenvwrapper</a></li>
+    <li><a href="#virtualenvwrapper2">使用virtualenvwrapper</a></li>
+    <li><a href="#mkvirtualenv">修改mkvirtualenv的默认路径</a></li>
+    <li><a href="#python1">创建虚拟环境时指定python解释器</a></li>
+    <li><a href="#vsccodepython">在vsccode中设置python虚拟环境</a></li>
+  </ul>
+</nav>
+<h2 id="heading">虚拟环境的作用</h2>
 <p>虚拟环境相当于一个抽屉，在这个抽屉中安装任何软件包都不会影响其他抽屉。然后在项目我可以根据自己的需要，指定一个虚拟环境来适配我的项目。比如我现在有一个项目是基于Django 1.10x，两一个项目是基于Django 0.9.x，那么这时候我就可以创建两个虚拟环境，并在两个虚拟环境中分别安装Django 1.10x和Django 0.9.x，然后不同的项目使用不同的虚拟环境。</p>
-<h1 id="virtualenv">安装virtualenv</h1>
+<h2 id="virtualenv">安装virtualenv</h2>
 <p>virtualenv是用来创建虚拟环境的工具，可以使用如下命令安装</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">pip install virtualenv
 <span style="color:#f92672">(</span>pip3 install virtualenv<span style="color:#f92672">)</span>
-</code></pre></div><h1 id="heading1">创建虚拟环境</h1>
+</code></pre></div><h2 id="heading1">创建虚拟环境</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">virtuaenv <span style="color:#f92672">[</span>虚拟环境名<span style="color:#f92672">]</span>
 </code></pre></div><p>如果当前Python3/Scripts的查找路径在Python/Scrpts的前面，那么将会使用python3作为这个虚拟环境的解释器，反之则将选择python2作为这个虚拟环境的解释器。</p>
-<h1 id="heading2">进入环境</h1>
+<h2 id="heading2">进入环境</h2>
 <p>虚拟环境建好后，可以进到虚拟环境中，安装一些第三方的包，进入虚拟环境的方法如下（不同操作系统不一样）</p>
 <ul>
 <li>windows:进入虚拟环境文件夹的Scripts文件夹，然后执行命令<code>activate</code></li>
 <li>Linux：执行命令 source/path/to/virtualenv/bin/activate</li>
 </ul>
 <p>在虚拟环境中，安装或卸载都只在当前虚拟环境，不会影响其他虚拟环境</p>
-<h1 id="heading3">退出虚拟环境</h1>
+<h2 id="heading3">退出虚拟环境</h2>
 <p>执行命令<code>deactivate</code>即可</p>
-<h1 id="python">创建虚拟环境的时候指定python解释器</h1>
+<h2 id="python">创建虚拟环境的时候指定python解释器</h2>
 <p>通过-p参数指定python解释器</p>
 <pre><code>virtualenv -p C:\Python36\python.exe [虚拟环境名]
-</code></pre><h1 id="virtualenvwrapper">virtualenvwrapper</h1>
+</code></pre><h2 id="virtualenvwrapper">virtualenvwrapper</h2>
 <p>virtualenvwrapper让我们更加方便的管理我们的虚拟环境，不用跑到特定的目录下创建或激活虚拟环境。</p>
-<h1 id="virtualenvwrapper1">安装virtualenvwrapper</h1>
+<h2 id="virtualenvwrapper1">安装virtualenvwrapper</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Linux</span>
 pip install virtualenvwrapper
 <span style="color:#75715e"># windows</span>
 pip install virtualenvwrapper-win
-</code></pre></div><h1 id="virtualenvwrapper2">使用virtualenvwrapper</h1>
+</code></pre></div><h2 id="virtualenvwrapper2">使用virtualenvwrapper</h2>
 <ul>
 <li>
 <p>创建虚拟环境</p>
@@ -323,12 +338,12 @@ pip install virtualenvwrapper-win
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cdvirtualenv
 </code></pre></div></li>
 </ul>
-<h1 id="mkvirtualenv">修改mkvirtualenv的默认路径</h1>
+<h2 id="mkvirtualenv">修改mkvirtualenv的默认路径</h2>
 <p>在环境变量中添加一个变量WORKON_HOME,将你所要设置的目录路径填进去</p>
-<h1 id="python1">创建虚拟环境时指定python解释器</h1>
+<h2 id="python1">创建虚拟环境时指定python解释器</h2>
 <p>在使用mkvirtualenv的时候，可以使用&ndash;python指定解释器</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkvirtualenv --python<span style="color:#f92672">=</span><span style="color:#f92672">=</span>C:<span style="color:#ae81ff">\P</span>ython36<span style="color:#ae81ff">\p</span>ython.exe my_env
-</code></pre></div><h1 id="vsccodepython">在vsccode中设置python虚拟环境</h1>
+</code></pre></div><h2 id="vsccodepython">在vsccode中设置python虚拟环境</h2>
 <p>Ctrl+Shift+P在命令列表中，找到Python:Select interpreter,就可以选择需要的虚拟环境。</p>
                       
                   </div>
@@ -343,13 +358,13 @@ pip install virtualenvwrapper-win
                       
   <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/python/">python</a>
 
-  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/">虚拟环境</a>
-
   <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/virtualenv/">virtualenv</a>
 
   <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/virtualwrapper/">virtualwrapper</a>
 
   <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/vscode/">vscode</a>
+
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/">虚拟环境</a>
 
                   </div>
                   

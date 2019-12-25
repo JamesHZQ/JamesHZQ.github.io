@@ -260,29 +260,37 @@
                       <p>使用hugo+GitHub pages搭建博客，使用tranquilpeak主题。</p>
 <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
   <ul>
-    <li><a href="#hugo">安装Hugo</a></li>
-    <li><a href="#hugo1">使用Hugo建立一个新的博客网站</a></li>
-    <li><a href="#hugo2">使用Hugo主题</a></li>
-    <li><a href="#heading2">写一篇博客</a></li>
-    <li><a href="#github">将博客网站部署到github</a></li>
+    <li><a href="#heading">为什么要搭建个人博客</a></li>
+    <li><a href="#heading1">搭建个人博客方案选择</a></li>
+    <li><a href="#hugogithub-pages">Hugo+github pages搭建个人博客初步</a>
+      <ul>
+        <li><a href="#hugo">安装Hugo</a></li>
+        <li><a href="#hugo1">使用Hugo建立一个新的博客网站</a></li>
+        <li><a href="#hugo2">使用Hugo主题</a></li>
+        <li><a href="#heading2">写一篇博客</a></li>
+        <li><a href="#github">将博客网站部署到github</a></li>
+      </ul>
+    </li>
+    <li><a href="#heading3">推荐几个小工具</a></li>
+    <li><a href="#heading4">主要参考</a></li>
   </ul>
 </nav>
-<h1 id="heading">为什么要搭建个人博客</h1>
+<h2 id="heading">为什么要搭建个人博客</h2>
 <p>以前一直没有养成写博客的好习惯，但近期逐渐发现学的知识不仅变得越来越广，还变得越来越深入，如果不及时进行相应的记录，往往会出现以前非常熟的知识，现在要用的时候已经不怎么记得了，但是由于缺少用于快速回顾的相关资料，要花费大量的时间重新学习。</p>
 <p>这就体现出经常写博客的好处，一方面通过写博客可以帮助自己梳理刚刚学的知识，另一方面博客还可以在将来帮助你对相关知识进行高效的回顾、复习。</p>
 <p>可以在第三方博客网站（csdn，cnblog，简书）写博客，也可以搭建自己的博客网站在上面写博客。由于本人觉得第三方博客网站广告太多，界面不够美观，不能定制，所以选择搭建自己的博客网站。</p>
-<h1 id="heading1">搭建个人博客方案选择</h1>
+<h2 id="heading1">搭建个人博客方案选择</h2>
 <p>搭建博客网站可以完全自建也可以借助第三方框架，为了快速建立自己的个人博客，我选择借助第三方框架。现在主流的第三方框架主要有<a href="https://gohugo.io">Hugo</a>、<a href="https://hexo.io/zh-cn/">Hexo</a>、<a href="http://jekyllcn.com">jekyll</a>，它们都可用来搭建静态博客网站（无后端）。Hugo相比其它的web框架具有使用方便、几乎无依赖、生成速度快的优点，而且Hugo是基于Go语言开发的，个人对其有一定的好感。</p>
-<h1 id="hugogithub-pages">Hugo+github pages搭建个人博客初步</h1>
-<h2 id="hugo">安装Hugo</h2>
+<h2 id="hugogithub-pages">Hugo+github pages搭建个人博客初步</h2>
+<h3 id="hugo">安装Hugo</h3>
 <p>windows环境：</p>
 <p>到<a href="https://github.com/gohugoio/hugo/releases">这里</a>下载相应的版本，并将.exe程序的路径添加到环境变量path</p>
 <p>Linux环境：</p>
 <p>使用命令安装即可</p>
-<h2 id="hugo1">使用Hugo建立一个新的博客网站</h2>
+<h3 id="hugo1">使用Hugo建立一个新的博客网站</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">hugo new site myblog
 </code></pre></div><p>命令执行完后，会生成一个myblog文件夹，文件夹下包含config.toml、content、themes等文件或文件夹。</p>
-<h2 id="hugo2">使用Hugo主题</h2>
+<h3 id="hugo2">使用Hugo主题</h3>
 <p>去<a href="https://themes.gohugo.io/">这里</a>找到自己喜欢的主题，里面也会有主题的下载方法和使用方法。一般情况下主题的下载方法如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd themes
 git clone https://github.com/kakawait/hugo-tranquilpeak-theme.git
@@ -291,7 +299,7 @@ git clone https://github.com/kakawait/hugo-tranquilpeak-theme.git
 </code></pre></div><p>若config.toml文件已经配置好，直接执行命令</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">hugo server
 </code></pre></div><p>在本地通过访问localhost::1313查看主题效果。比较比较推荐的主题有，<a href="https://themes.gohugo.io/hugo-theme-even/">Even</a>、<a href="https://themes.gohugo.io/hugo-theme-learn/">Learn</a>、<a href="https://themes.gohugo.io/hugo-tranquilpeak-theme/">tranquilpeak</a></p>
-<h2 id="heading2">写一篇博客</h2>
+<h3 id="heading2">写一篇博客</h3>
 <p>首先稍微熟悉下<a href="https://www.mdeditor.com/">markdown语法</a>，内容挺多，但掌握基本语法足以写出一篇普通的博客了。</p>
 <p>然后还要学习一下，所使用的主题下markdown的一些特殊写法</p>
 <p>最常见的写在最前面的</p>
@@ -311,7 +319,7 @@ tags:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown">&lt;!--more--&gt;    	//用于生成摘要
 &lt;!--toc--&gt;		//用于生成目录
 </code></pre></div><p>上面只介绍了几种基本的用法，其他更多有趣的用法可以看<a href="https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md">这里</a>。</p>
-<h2 id="github">将博客网站部署到github</h2>
+<h3 id="github">将博客网站部署到github</h3>
 <p>新建一个仓库，仓库名一定要为</p>
 <pre><code>XXX.github.io
 </code></pre><p>在myblog文件夹下，执行命令</p>
@@ -325,12 +333,12 @@ git commit -m &quot;new theme&quot;
 git remote add origin https://github.com/JamesHZQ/JamesHZQ.github.io.git
 git push -f origin master
 </code></pre><p>将博客网站部署到github，让后就可以通过https://jameshzq.github.io网址访问到自己的博客网站了。</p>
-<h1 id="heading3">推荐几个小工具</h1>
+<h2 id="heading3">推荐几个小工具</h2>
 <ul>
 <li>markdown编辑器：typora</li>
 <li>图床使用工具：PicGo</li>
 </ul>
-<h1 id="heading4">主要参考</h1>
+<h2 id="heading4">主要参考</h2>
 <blockquote>
 <p><a href="https://www.bilibili.com/video/av51574688">https://www.bilibili.com/video/av51574688</a></p>
 </blockquote>

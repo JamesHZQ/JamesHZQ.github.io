@@ -262,8 +262,16 @@
               <div class="post-content markdown" itemprop="articleBody">
                   <div class="main-content-wrap">
                       <p>本篇博客将介绍如何在博客中引入valine评论系统。</p>
-<h1 id="table-of-contents">目录</h1><nav id="TableOfContents"></nav>
-<h1 id="leancloud">配置leancloud</h1>
+<h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+  <ul>
+    <li><a href="#leancloud">配置leancloud</a></li>
+    <li><a href="#configtoml">配置config.toml</a></li>
+    <li><a href="#heading">修改主题文件</a></li>
+    <li><a href="#leancloud1">引入leancloud后台自动唤醒功能</a></li>
+    <li><a href="#heading1">主要参考</a></li>
+  </ul>
+</nav>
+<h2 id="leancloud">配置leancloud</h2>
 <p>大致按如下步骤配置，详情请看<a href="https://www.smslit.top/2018/07/08/hugo-valine/">这里</a></p>
 <ol>
 <li>登录或注册<a href="https://leancloud.cn/dashboard/login.html#/signin">leancloud</a></li>
@@ -272,7 +280,7 @@
 <li>在存储中创建两个Class，Counter和comment</li>
 <li>依次点击<strong>设置</strong>-&gt;<strong>安全中心</strong>，找到<strong>web安全域名</strong>，然后填写自己的博客网址</li>
 </ol>
-<h1 id="configtoml">配置config.toml</h1>
+<h2 id="configtoml">配置config.toml</h2>
 <p>可参考如下配置代码,同时需要注释掉这行代码<code>disqusShortname = &quot;hugo-tranquilpeak-theme&quot;</code></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">  [<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">valine</span>]
     <span style="color:#a6e22e">enable</span> = <span style="color:#66d9ef">true</span>
@@ -283,7 +291,7 @@
     <span style="color:#a6e22e">avatar</span> = <span style="color:#e6db74">&#39;mm&#39;</span> 
     <span style="color:#a6e22e">placeholder</span> = <span style="color:#e6db74">&#39;说点什么吧...&#39;</span>
     <span style="color:#a6e22e">visitor</span> = <span style="color:#66d9ef">true</span>
-</code></pre></div><h1 id="heading">修改主题文件</h1>
+</code></pre></div><h2 id="heading">修改主题文件</h2>
 <p>在myblog\themes\hugo-tranquilpeak-theme\layouts\partials文件夹下，新建comments.html布局文件，填写如下代码</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> valine </span><span style="color:#75715e">--&gt;</span>
 {{- if .Site.Params.valine.enable -}}
@@ -313,7 +321,7 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34; post-comment&#34;</span>&gt;
 	{{ partial &#34;comments.html&#34; . }}
 &lt;/<span style="color:#f92672">div</span>&gt;
-</code></pre></div><h1 id="leancloud1">引入leancloud后台自动唤醒功能</h1>
+</code></pre></div><h2 id="leancloud1">引入leancloud后台自动唤醒功能</h2>
 <p>免费版的leancloud容器，有强制性休眠策略，每天至少休眠6小时，并且30分钟没有外部请求会自动休眠。leancloud后台休眠状态下收到请求会被唤醒，但是这请求不会发送相应的通知邮件。</p>
 <p>所以需要配置leancloud定时器，每隔一段时间，如20min，自动激活一次，使后台长时间处于唤醒状态。</p>
 <p>大致步骤如下，详情请参考<a href="https://github.com/zhaojun1998/Valine-Admin">这里</a></p>
@@ -342,7 +350,7 @@
 </li>
 </ol>
 <p>至此一个基本的评论系统已经添加你自己的博客了，快去测试吧。</p>
-<h1 id="heading1">主要参考</h1>
+<h2 id="heading1">主要参考</h2>
 <blockquote>
 <p><a href="https://www.smslit.top/2018/07/08/hugo-valine/">https://www.smslit.top/2018/07/08/hugo-valine/</a></p>
 <p><a href="https://github.com/zhaojun1998/Valine-Admin">https://github.com/zhaojun1998/Valine-Admin</a></p>

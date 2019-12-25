@@ -278,24 +278,23 @@
 <p>不可变序列：tuple、str和bytes</p>
 <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
   <ul>
-    <li><a href="#heading1">列表推导</a>
+    <li><a href="#heading">列表推导</a>
       <ul>
-        <li><a href="#heading2">列表推导举例</a></li>
+        <li><a href="#heading1">列表推导举例</a></li>
         <li><a href="#filtermap">列表推导和filter、map的比较</a></li>
       </ul>
     </li>
-    <li><a href="#heading3">生成器表达式</a></li>
-    <li><a href="#heading4">元组不仅是不可变列表</a>
+    <li><a href="#heading2">生成器表达式</a></li>
+    <li><a href="#heading3">元组不仅是不可变列表</a>
       <ul>
-        <li><a href="#heading5">元组用于记录</a></li>
-        <li><a href="#heading6">元组拆包</a></li>
+        <li><a href="#heading4">元组用于记录</a></li>
+        <li><a href="#heading5">元组拆包</a></li>
       </ul>
     </li>
   </ul>
 </nav>
-<h1 id="heading">序列构成的数组</h1>
-<h2 id="heading1">列表推导</h2>
-<h3 id="heading2">列表推导举例</h3>
+<h2 id="heading">列表推导</h2>
+<h3 id="heading1">列表推导举例</h3>
 <p>普通版本</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">symbols <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">@#$</span><span style="color:#e6db74">%</span><span style="color:#e6db74">^</span><span style="color:#e6db74">&#39;</span>
 codes <span style="color:#f92672">=</span> []
@@ -311,7 +310,7 @@ codes <span style="color:#f92672">=</span> [ord(symbol) <span style="color:#66d9
 beyond_ascii <span style="color:#f92672">=</span> [ord(s) <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> symbols <span style="color:#66d9ef">if</span> ord(s)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">127</span>]
 
 beyond_ascii <span style="color:#f92672">=</span> list(filter(<span style="color:#66d9ef">lambda</span> c:c <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">127</span>, map(ord,symbols)))
-</code></pre></div><h2 id="heading3">生成器表达式</h2>
+</code></pre></div><h2 id="heading2">生成器表达式</h2>
 <p>生成器表达式的语法和列表推导的差不多，只是把方括号换成圆括号。生成器表达式相比列表推导，它是逐个的产出元素而不是先建立一个完整的列表再把这个列表传给某个构造函数，前面哪种方式显然更节省内存。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">symbols <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%</span><span style="color:#e6db74">^&amp;*$</span><span style="color:#e6db74">%</span><span style="color:#e6db74">&#39;</span>
 tuple(ord(symbol) <span style="color:#66d9ef">for</span> symbol <span style="color:#f92672">in</span> symbols)
@@ -321,8 +320,8 @@ array<span style="color:#f92672">.</span>array(<span style="color:#e6db74"></spa
 sizes <span style="color:#f92672">=</span> [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">S</span><span style="color:#e6db74">&#39;</span>,<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">M</span><span style="color:#e6db74">&#39;</span>,<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">L</span><span style="color:#e6db74">&#39;</span>]
 <span style="color:#66d9ef">for</span> tshirt <span style="color:#f92672">in</span> (<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (c,s) <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> colors <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> sizes)
 <span style="color:#66d9ef">print</span>(tshirt)
-</code></pre></div><h2 id="heading4">元组不仅是不可变列表</h2>
-<h3 id="heading5">元组用于记录</h3>
+</code></pre></div><h2 id="heading3">元组不仅是不可变列表</h2>
+<h3 id="heading4">元组用于记录</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">kax_coordinates <span style="color:#f92672">=</span> (<span style="color:#ae81ff">33.94525</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">118.408056</span>)
 city, year, pop, chg, area <span style="color:#f92672">=</span> (<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Tokyo</span><span style="color:#e6db74">&#39;</span>,<span style="color:#ae81ff">2003</span>,<span style="color:#ae81ff">32450</span>,<span style="color:#ae81ff">0.66</span>,<span style="color:#ae81ff">8014</span>)
 traveler_ids <span style="color:#f92672">=</span> [(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">USA</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">33195855</span><span style="color:#e6db74">&#39;</span>), (<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">BRA</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">CE342567</span><span style="color:#e6db74">&#39;</span>), (<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">ESP</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">XDA205856</span><span style="color:#e6db74">&#39;</span>)]
@@ -330,7 +329,7 @@ traveler_ids <span style="color:#f92672">=</span> [(<span style="color:#e6db74">
 	<span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> passport)
 <span style="color:#66d9ef">for</span> country, _ <span style="color:#f92672">in</span> traveler_ids:
 	<span style="color:#66d9ef">print</span>(country)
-</code></pre></div><h3 id="heading6">元组拆包</h3>
+</code></pre></div><h3 id="heading5">元组拆包</h3>
 <p>平行赋值</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">lax_coordinates <span style="color:#f92672">=</span> (<span style="color:#ae81ff">33.9425</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">118.408056</span>)
 latitude, longitude <span style="color:#f92672">=</span> lax_coordinates
