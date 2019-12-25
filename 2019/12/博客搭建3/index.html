@@ -8,18 +8,18 @@
 <meta name="generator" content="Hugo 0.60.1 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="James He">
 <meta name="keywords" content="">
-<meta name="description" content="本篇博客将介绍如何在博客中引入valine评论系统。">
+<meta name="description" content="本篇博客将介绍如何在博客中引入valine评论系统，如果要使用disqus可以参考这里。">
 
 
-<meta property="og:description" content="本篇博客将介绍如何在博客中引入valine评论系统。">
+<meta property="og:description" content="本篇博客将介绍如何在博客中引入valine评论系统，如果要使用disqus可以参考这里。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="博客搭建（3）">
 <meta name="twitter:title" content="博客搭建（3）">
 <meta property="og:url" content="https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
 <meta property="twitter:url" content="https://JamesHZQ.github.io/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/">
 <meta property="og:site_name" content="James He::blog">
-<meta property="og:description" content="本篇博客将介绍如何在博客中引入valine评论系统。">
-<meta name="twitter:description" content="本篇博客将介绍如何在博客中引入valine评论系统。">
+<meta property="og:description" content="本篇博客将介绍如何在博客中引入valine评论系统，如果要使用disqus可以参考这里。">
+<meta name="twitter:description" content="本篇博客将介绍如何在博客中引入valine评论系统，如果要使用disqus可以参考这里。">
 <meta property="og:locale" content="zh-cn">
 
   
@@ -261,7 +261,7 @@
               
               <div class="post-content markdown" itemprop="articleBody">
                   <div class="main-content-wrap">
-                      <p>本篇博客将介绍如何在博客中引入valine评论系统。</p>
+                      <p>本篇博客将介绍如何在博客中引入valine评论系统，如果要使用disqus可以参考<a href="https://www.jianshu.com/p/d68de067ea74?open_source=weibo_search">这里</a>。</p>
 <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
   <ul>
     <li><a href="#leancloud">配置leancloud</a></li>
@@ -281,7 +281,7 @@
 <li>依次点击<strong>设置</strong>-&gt;<strong>安全中心</strong>，找到<strong>web安全域名</strong>，然后填写自己的博客网址</li>
 </ol>
 <h2 id="configtoml">配置config.toml</h2>
-<p>可参考如下配置代码,同时需要注释掉这行代码<code>disqusShortname = &quot;hugo-tranquilpeak-theme&quot;</code></p>
+<p>可参考如下配置代码,同时需要注释掉这行代码<code>disqusShortname = &quot;hugo-tranquilpeak-theme&quot;</code>。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">  [<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">valine</span>]
     <span style="color:#a6e22e">enable</span> = <span style="color:#66d9ef">true</span>
     <span style="color:#a6e22e">appId</span> = <span style="color:#e6db74">&#39;YOUR APPID&#39;</span>
@@ -436,12 +436,6 @@
         
       
       
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
       <li class="post-action">
         
           <a class="post-action-btn btn btn--default" href="#table-of-contents">
@@ -455,11 +449,30 @@
 
                   
                   
-                  <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
                   
-                  
+                  <div class=" post-comment">
+                      
+<span id="/2019/12/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3/" class="leancloud_visitors" data-flag-title="博客搭建（3）">
+    <span class="post-meta-item-text">文章阅读量</span>
+    <span class="leancloud-visitors-count">1000000</span>
+    <p></p>
+</span>
+<div id="vcomments"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: '9vPmRyyg9zXg0dmLboi2hGUw-gzGzoHsz',
+        appKey: 'FqfEjT1awERGPA29J0l2v8in',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+</script>
+                  </div>
               </div>
           </article>
         <footer id="footer" class="main-content-wrap">
@@ -521,12 +534,6 @@
           </li>
         
       
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
       
       <li class="post-action">
         
@@ -646,28 +653,6 @@ $(document).ready(function() {
 
 
   
-    
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/JamesHZQ.github.io\/2019\/12\/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3\/';
-          
-            this.page.identifier = '\/2019\/12\/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA3\/'
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'JamesHe';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
     
   
 
