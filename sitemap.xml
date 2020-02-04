@@ -43,12 +43,12 @@
   </url>
   
   <url>
-    <loc>https://JamesHZQ.github.io/categories/python/</loc>
+    <loc>https://JamesHZQ.github.io/tags/python/</loc>
     <lastmod>2019-12-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://JamesHZQ.github.io/tags/python/</loc>
+    <loc>https://JamesHZQ.github.io/categories/python/</loc>
     <lastmod>2019-12-16T00:00:00+00:00</lastmod>
   </url>
   
@@ -164,6 +164,18 @@
   
   <url>
     <loc>https://JamesHZQ.github.io/archives/</loc>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/categories/%E8%AE%BA%E6%96%87/</loc>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/tags/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</loc>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/1/01/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</loc>
   </url>
   
 </urlset>
