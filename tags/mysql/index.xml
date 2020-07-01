@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL on James He::blog</title>
+    <link>https://JamesHZQ.github.io/tags/mysql/</link>
+    <description>Recent content in MySQL on James He::blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Jul 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://JamesHZQ.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MySQL8（密码以及远程连接的问题）</title>
+      <link>https://JamesHZQ.github.io/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.60.1 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="James He">
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL8（密码以及远程连接的问题）">
+<meta name="twitter:title" content="MySQL8（密码以及远程连接的问题）">
+<meta property="og:url" content="https://JamesHZQ.github.io/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/">
+<meta property="twitter:url" content="https://JamesHZQ.github.io/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/">
+<meta property="og:site_name" content="James He::blog">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2020-07-01T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2020-07-01T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="MySQL">
+    
+  
+  
+    
+      <meta property="article:tag" content="MySQL">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=640">
+
+
+    <title>MySQL8（密码以及远程连接的问题）</title>
+
+    <link rel="icon" href="https://i.loli.net/2019/12/28/ad6kITFfVZc3wuv.png">
+    
+
+    
+
+    <link rel="canonical" href="https://JamesHZQ.github.io/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://JamesHZQ.github.io/css/style-c6ffkxcp2qwlf43uopv7qpz9w3xzfr0xyjwzlhnhnnmj00kjixck64ds.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://JamesHZQ.github.io/">James He::blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://JamesHZQ.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://JamesHZQ.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">James He</h4>
+        
+          <h5 class="sidebar-profile-bio">不忘初心，做好自己<br /><a href="mailto:hezhiqiang.a@gmail.com">hezhiqiang.a@gmail.com</a></h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/JamesHZQ" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/11174813/james-he" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://JamesHZQ.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+          <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+              
+              
+              <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      MySQL8（密码以及远程连接的问题）
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-07-01T00:00:00Z">
+        
+  七月 1, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://JamesHZQ.github.io/categories/mysql">MySQL</a>
+    
+  
+
+  </div>
+
+</div>
+              
+              <div class="post-content markdown" itemprop="articleBody">
+                  <div class="main-content-wrap">
+                      <h2 id="mysql8">MySQL8忘记密码怎么办？</h2>
+<ol>
+<li>
+<p>sudo vim /etc/mysql/my.cnf</p>
+<p>增加如下内容，跳过密码检查。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
+<span style="color:#75715e">#(可选)</span>
+<span style="color:#75715e">#skip-name-resolve</span>
+skip-grant-tables
+</code></pre></div></li>
+<li>
+<p>service mysql restart</p>
+</li>
+<li>
+<p>进mysql（无需密码）</p>
+</li>
+<li>
+<p>flush privileges;</p>
+</li>
+<li>
+<p>update user set authentication_string=&rsquo;&rsquo; where user='root&rsquo;;</p>
+</li>
+<li>
+<p>alter user &lsquo;root&rsquo;@&lsquo;localhost&rsquo; identified with mysql_native_password by &lsquo;newPassword&rsquo;;(with mysql_native_password 可选)</p>
+<p>注意密码的复杂性。若想设置简单密码，修改下列属性</p>
+<ul>
+<li>SHOW VARIABLES LIKE &lsquo;validate_password%';</li>
+<li>set global validate_password.policy=LOW;</li>
+<li>set global validate_password.length=6;</li>
+</ul>
+<p>另外，注意查看host是‘localhost’还是‘%’</p>
+<ul>
+<li>use mysql;</li>
+<li>select user,host from user;</li>
+</ul>
+</li>
+<li>
+<p>sudo vim /etc/mysql/my.cnf</p>
+<p>复原my.cnf</p>
+</li>
+<li>
+<p>service mysql restart</p>
+</li>
+<li>
+<p>mysql -u root -p（验证）</p>
+</li>
+</ol>
+<hr>
+<h2 id="mysql81">MySQL8配置远程连接</h2>
+<ol>
+<li>
+<p>进mysql（root localhost）</p>
+</li>
+<li>
+<p>use mysql;</p>
+</li>
+<li>
+<p>select host, user, authentication_string, plugin from user;</p>
+</li>
+<li>
+<p>create user &lsquo;root&rsquo;@'%&rsquo; identified by &lsquo;你自己的mysql密码&rsquo;;</p>
+</li>
+<li>
+<p>grant all privileges on <em>.</em> to &lsquo;root&rsquo;@'%';</p>
+</li>
+<li>
+<p>flush privileges;</p>
+</li>
+<li>
+<p>sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf</p>
+<p>注释掉：ind-address          = 127.0.0.1</p>
+</li>
+<li>
+<p>service mysql restart</p>
+</li>
+</ol>
+<blockquote>
+<p><a href="https://blog.csdn.net/winterking3/article/details/86080434">https://blog.csdn.net/winterking3/article/details/86080434</a></p>
+<p><a href="https://blog.csdn.net/hello_world_qwp/article/details/79551789">https://blog.csdn.net/hello_world_qwp/article/details/79551789</a></p>
+<p><a href="https://blog.csdn.net/q258523454/article/details/84555847">https://blog.csdn.net/q258523454/article/details/84555847</a></p>
+<p><a href="https://www.jb51.net/article/179011.htm">https://www.jb51.net/article/179011.htm</a></p>
+</blockquote>
+<p>MySQL的安装可以看这篇</p>
+<blockquote>
+<p><a href="https://forum.ubuntu.org.cn/viewtopic.php?t=491034">https://forum.ubuntu.org.cn/viewtopic.php?t=491034</a></p>
+</blockquote>
+                      
+                  </div>
+              </div>
+              <div id="post-footer" class="post-footer main-content-wrap">
+                  
+                  
+                  
+                  
+                  <div class="post-footer-tags">
+                      <span class="text-color-light text-small">标签</span><br />
+                      
+  <a class="tag tag--primary tag--small" href="https://JamesHZQ.github.io/tags/mysql/">MySQL</a>
+
+                  </div>
+                  
+                  
+                  
+                  <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://JamesHZQ.github.io/2020/07/redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" data-tooltip="redis安装与配置">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+                  
+                  
+                  
+                  <div class=" post-comment">
+                      
+<span id="/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/" class="leancloud_visitors" data-flag-title="MySQL8（密码以及远程连接的问题）">
+    <span class="post-meta-item-text">文章阅读量</span>
+    <span class="leancloud-visitors-count">1000000</span>
+    <p></p>
+</span>
+<div id="vcomments"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: '9vPmRyyg9zXg0dmLboi2hGUw-gzGzoHsz',
+        appKey: 'FqfEjT1awERGPA29J0l2v8in',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+</script>
+                  </div>
+              </div>
+          </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 James He. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://JamesHZQ.github.io/2020/07/redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" data-tooltip="redis安装与配置">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2FJamesHZQ.github.io%2F2020%2F07%2Fmysql8%25E5%25AF%2586%25E7%25A0%2581%25E4%25BB%25A5%25E5%258F%258A%25E8%25BF%259C%25E7%25A8%258B%25E8%25BF%259E%25E6%258E%25A5%25E7%259A%2584%25E9%2597%25AE%25E9%25A2%2598%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2FJamesHZQ.github.io%2F2020%2F07%2Fmysql8%25E5%25AF%2586%25E7%25A0%2581%25E4%25BB%25A5%25E5%258F%258A%25E8%25BF%259C%25E7%25A8%258B%25E8%25BF%259E%25E6%258E%25A5%25E7%259A%2584%25E9%2597%25AE%25E9%25A2%2598%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2FJamesHZQ.github.io%2F2020%2F07%2Fmysql8%25E5%25AF%2586%25E7%25A0%2581%25E4%25BB%25A5%25E5%258F%258A%25E8%25BF%259C%25E7%25A8%258B%25E8%25BF%259E%25E6%258E%25A5%25E7%259A%2584%25E9%2597%25AE%25E9%25A2%2598%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/250f88eb6a80b2274b609ea62324590c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">James He</h4>
+    
+      <div id="about-card-bio">不忘初心，做好自己<br /><a href="mailto:hezhiqiang.a@gmail.com">hezhiqiang.a@gmail.com</a></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        程序猿
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        广州
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    <div id="cover" style="background-image:url('https://i.loli.net/2019/12/28/j1LImVtxn28J3Yw.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://JamesHZQ.github.io/js/script-l7l2pnvx3kgm3ypbzp7m71ncwcj5xu3s38ooqmw7ipvsi0pwfyfpga.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

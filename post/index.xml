@@ -6,10 +6,55 @@
     <description>Recent content in Posts on James He::blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://JamesHZQ.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MySQL8（密码以及远程连接的问题）</title>
+      <link>https://JamesHZQ.github.io/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>redis安装与配置</title>
+      <link>https://JamesHZQ.github.io/2020/07/redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2020/07/redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vscode下C&#43;&#43;开发环境搭建</title>
+      <link>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bc-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bc-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vscode下GO开发环境搭建</title>
+      <link>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bgo%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bgo%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>论文排版</title>
+      <link>https://JamesHZQ.github.io/2020/01/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</link>
+      <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2020/01/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</guid>
+      <description>&lt;p&gt;论文排版&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>https原理</title>
@@ -68,15 +113,6 @@
 扁平序列：str、bytes、bytearray、memeoryview和array.array这些序列只能存放一种类型的数据
 可变序列：list、bytearray、array.array、collections.dequeue和memoryview
 不可变序列：tuple、str和bytes&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>论文排版</title>
-      <link>https://JamesHZQ.github.io/1/01/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://JamesHZQ.github.io/1/01/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</guid>
-      <description>&lt;p&gt;论文排版&lt;/p&gt;</description>
     </item>
     
   </channel>

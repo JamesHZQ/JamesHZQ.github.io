@@ -6,10 +6,28 @@
     <description>Recent content in vscode on James He::blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 16 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://JamesHZQ.github.io/tags/vscode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>vscode下C&#43;&#43;开发环境搭建</title>
+      <link>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bc-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bc-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vscode下GO开发环境搭建</title>
+      <link>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bgo%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bgo%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>配置python虚拟环境</title>

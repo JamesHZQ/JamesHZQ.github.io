@@ -3,8 +3,103 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://JamesHZQ.github.io/categories/c/c&#43;&#43;/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/tags/c/c&#43;&#43;/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://JamesHZQ.github.io/categories/</loc>
-    <lastmod>2019-12-23T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/tags/go/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/categories/go/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/tags/mysql/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/categories/mysql/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/2020/07/mysql8%E5%AF%86%E7%A0%81%E4%BB%A5%E5%8F%8A%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/post/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/categories/redis/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/tags/redis/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/2020/07/redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/tags/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/tags/vscode/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bc-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/2020/07/vscode%E4%B8%8Bgo%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/categories/%E8%AE%BA%E6%96%87/</loc>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/tags/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</loc>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JamesHZQ.github.io/2020/01/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</loc>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,32 +118,17 @@
   </url>
   
   <url>
-    <loc>https://JamesHZQ.github.io/</loc>
-    <lastmod>2019-12-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://JamesHZQ.github.io/post/</loc>
-    <lastmod>2019-12-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://JamesHZQ.github.io/tags/</loc>
-    <lastmod>2019-12-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://JamesHZQ.github.io/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2019-12-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://JamesHZQ.github.io/tags/python/</loc>
+    <loc>https://JamesHZQ.github.io/categories/python/</loc>
     <lastmod>2019-12-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://JamesHZQ.github.io/categories/python/</loc>
+    <loc>https://JamesHZQ.github.io/tags/python/</loc>
     <lastmod>2019-12-16T00:00:00+00:00</lastmod>
   </url>
   
@@ -59,11 +139,6 @@
   
   <url>
     <loc>https://JamesHZQ.github.io/tags/virtualwrapper/</loc>
-    <lastmod>2019-12-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://JamesHZQ.github.io/tags/vscode/</loc>
     <lastmod>2019-12-16T00:00:00+00:00</lastmod>
   </url>
   
@@ -164,18 +239,6 @@
   
   <url>
     <loc>https://JamesHZQ.github.io/archives/</loc>
-  </url>
-  
-  <url>
-    <loc>https://JamesHZQ.github.io/categories/%E8%AE%BA%E6%96%87/</loc>
-  </url>
-  
-  <url>
-    <loc>https://JamesHZQ.github.io/tags/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</loc>
-  </url>
-  
-  <url>
-    <loc>https://JamesHZQ.github.io/1/01/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88/</loc>
   </url>
   
 </urlset>
